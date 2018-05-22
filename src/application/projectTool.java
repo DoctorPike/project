@@ -3,6 +3,7 @@ import classes.task;
 import classes.project;
 
 import javax.rmi.ssl.SslRMIClientSocketFactory;
+import java.awt.*;
 import java.util.Scanner;
 
 public class projectTool{
@@ -10,29 +11,46 @@ public class projectTool{
     private static Scanner scanner = new Scanner( System.in );
 
     public static void main(String[] args) {
-    task NewTask;
+    task activeTask;
+    project activeProject;
+
     String strInput;
     String taskName;
-    int taskID;
-        NewTask = new task("New Task",1);
+    String projectName;
+    int iTaskCount;
+    long taskID;
+        activeTask = new task("New Task",1);
+        activeProject = new project(1,"new project");
+
         System.out.println("Hello User");
         do {
-            System.out.println("Pleae enter your commands ('task','list','exit')");
+            System.out.println("Pleae enter your commands ('project','add task','remove task','list','exit')");
             strInput = scanner.nextLine();
-            System.out.println("you typed: " + strInput);
-            if (strInput.equals("task")) {
-                System.out.println("Enter task name");
+
+            if (strInput.equals("add task")) {
+                System.out.println("enter name of new task: ");
                 taskName = scanner.nextLine();
-                NewTask.setTaskName(taskName);
-                System.out.println("Enter task id");
-                taskID = scanner.nextInt();
+                System.out.println("enter task ID");
+                taskID = scanner.nextLong();
                 scanner.nextLine(); // because nextLine is skipped after integer input ...???t
-                NewTask.setTaskID(taskID);
-                System.out.println("Task '"+NewTask.getTaskName()+"' with ID " + NewTask.getTaskID() + " has been created.");
+                activeProject.addTask(taskName, taskID, 0,0,1);
             }
-            if (strInput.equals("list")) {
-                System.out.println("task name:" + NewTask.getTaskName());
-                System.out.println("task ID:" + NewTask.getTaskID());
+            else if (strInput.equals("project")) {
+                System.out.println("Enter new project name: ");
+                projectName = scanner.nextLine();
+                activeProject.setProjectName(projectName);
+                System.out.println("Project with ID '"+ activeProject.getProjectID() + " name changed to " + activeProject.getProjectName());
+            }
+            else if (strInput.equals("list")) {
+                iTaskCount = activeProject.getTaskCount() +1;
+                System.out.println("Project : " + activeProject.getProjectName() + ", " + iTaskCount + " tasks:");
+                for (int i =0; i<= activeProject.getTaskCount(); i++) {
+                    if (activeProject.getTaskCount() > -1) {
+                        System.out.println("taskName: " + activeProject.tasks.get(i).getTaskName() + ", taskID: " + activeProject.tasks.get(i).getTaskID());
+                    }
+                }
+                } else {
+                System.out.println("I don't know that command...");
             }
         } while (!strInput.equals("exit"));
         System.out.println("program terminated!");

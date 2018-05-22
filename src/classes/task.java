@@ -1,5 +1,5 @@
 package classes;
-
+import java.util.ArrayList;
 public class task {
     //object variables
 
@@ -7,7 +7,15 @@ public class task {
     private String taskName;
     private long parentTaskID;
     private long previousTaskID;
-    private int theOrderValue;
+    private int OrderValue;
+
+    public int getOrderValue() {
+        return OrderValue;
+    }
+
+    public void setOrderValue(int orderValue) {
+        OrderValue = orderValue;
+    }
 
     //constructor
     public task(String taskName, long taskID) {

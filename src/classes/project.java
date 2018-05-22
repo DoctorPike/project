@@ -1,18 +1,26 @@
 package classes;
 
 import classes.task;
+import java.util.ArrayList;
 
 public class project {
 
     //class variables
     private String projectName;
     private long projectID;
-    private task taskArray[];
+    public ArrayList<task> tasks;
     private int taskCount;
 
     //Object variables
     private int TaskNum;
 
+    //constructor
+
+    public project(long projectID, String projectName) {
+        this.projectName = projectName;
+        this.projectID = projectID;
+        this.taskCount = -1; //to have same indexing as in arrays ... maybe to be changed
+    }
 
     //class methods
     public int getTaskIndex(long taskID) {
@@ -20,7 +28,7 @@ public class project {
         int iReturn;
         iReturn = 0;
         for (int i=0;i==taskCount;i++) {
-            if (taskArray[i].getTaskID() == taskID) {
+            if (tasks.get(i).getTaskID() == taskID) {
                 iReturn = i;
             }
         }
@@ -29,29 +37,17 @@ public class project {
 
     public void addTask(String taskName, long taskID, long parentTaskID, long previousTaskID, int orderNumber) {
     //adds task to project instance, increases task count
-      /*
-        VBA to be rewritten:
+        this.taskCount ++;
+        //if it'S the first task the task array is null, so it has to be created
+        if (this.taskCount == 0) {
+            tasks = new ArrayList<task>();
+        }
 
-        TaskNum = TaskNum + 1
-        ReDim Preserve TaskArray(TaskNum)
-        Set TaskArray(TaskNum) = New Task
-        TaskArray(TaskNum).name = taskName
-        If Not IsNull(ParentTaskID) Then
-        TaskArray(TaskNum).ParentID = CLng(ParentTaskID)
-        Else
-        TaskArray(TaskNum).ParentID = 0
-        End If
-        If Not IsNull(PreviousID) Then
-        TaskArray(TaskNum).PreviousID = CInt(PreviousTaskId)
-        Else
-        TaskArray(TaskNum).PreviousID = 0
-        End If
-        If Not IsNull(OrderValue) Then
-        TaskArray(TaskNum).OrderValue = CInt(OrderValue)
-        Else
-        TaskArray(TaskNum).PreviousID = 0
-        End If
-        TaskArray(TaskNum).ID = tTaskID*/
+        this.tasks.add(new task(taskName,taskID));
+        this.tasks.get(this.taskCount).setParentTaskID(parentTaskID);
+        this.tasks.get(this.taskCount).setPreviousTaskID(previousTaskID);
+        this.tasks.get(this.taskCount).setOrderValue(orderNumber);
+
     }
 
     public void removeTask(int taskIndex) {
@@ -92,6 +88,7 @@ public class project {
     }
 
     //getter and setter
+
     public String getProjectName() {
         return projectName;
     }
